@@ -1,20 +1,25 @@
-<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd" version="2.1">
-<persistence-unit name="auctionSystemPU" transaction-type="RESOURCE_LOCAL">
-<!--         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider> -->
-<!--         <class>com.ourproject.auctionsystem.User</class> -->
-<!--         <class>com.ourproject.auctionsystem.Jewelry</class> -->
-<!--         <class>com.ourproject.auctionsystem.Payment</class> -->
-<properties>
-<!--  JDBC properties  -->
-<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/your_database"/>
-<property name="javax.persistence.jdbc.user" value="your_username"/>
-<property name="javax.persistence.jdbc.password" value="your_password"/>
-<!--             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/> -->
-<!--  Hibernate properties  -->
-<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-<property name="hibernate.hbm2ddl.auto" value="update"/>
-<property name="hibernate.show_sql" value="true"/>
-<property name="hibernate.format_sql" value="true"/>
-</properties>
-</persistence-unit>
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+    <persistence-unit name="auctionSystemPU" transaction-type="RESOURCE_LOCAL">
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+<!--        <class>com.ourproject.auctionsystem.User</class>-->
+<!--        <class>com.ourproject.auctionsystem.Jewelry</class>-->
+<!--        <class>com.ourproject.auctionsystem.Payment</class>-->
+        <properties>
+            <!-- JDBC properties -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/your_database"/>
+            <property name="javax.persistence.jdbc.user" value="your_username"/>
+            <property name="javax.persistence.jdbc.password" value="your_password"/>
+<!--            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>-->
+
+            <!-- Hibernate properties -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
 </persistence>
