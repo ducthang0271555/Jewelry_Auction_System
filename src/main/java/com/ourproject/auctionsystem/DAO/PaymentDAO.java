@@ -1,6 +1,6 @@
 package com.ourproject.auctionsystem.DAO;
 
-import com.ourproject.auctionsystem.pojo.Customer;
+import com.ourproject.auctionsystem.pojo.Payment;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,24 +9,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-public class CustomerDAO {
+public class PaymentDAO {
     private Connection connection;
 
-    public CustomerDAO(Connection connection) {
+    public PaymentDAO(Connection connection) {
         this.connection = connection;
     }
 
-    // Get a single Customer by its ID
-    public Customer getCustomerById(int id) {
-        Customer customer = null;
-        String sql = "SELECT * FROM customers WHERE customerId = ?";
+    // Get a single Payment by its ID
+    public Payment getPaymentById(int id) {
+        Payment payment = null;
+        String sql = "SELECT * FROM payments WHERE paymentId = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -34,12 +27,11 @@ public class CustomerDAO {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                customer = new Customer();
-                customer.setCustomerID(resultSet.getInt("customerId"));
-                customer.setName(resultSet.getString("name"));
-                customer.setEmail(resultSet.getString("email"));
-                customer.setPhoneNumber(resultSet.getString("phoneNumber"));
-                customer.setAddress(resultSet.getString("address"));
+                payment = new Payment();
+                payment.setPaymentID(resultSet.getInt("paymentId"));
+                payment.setOrderID(resultSet.getInt("orderId"));
+                payment.setPaymentAmount(resultSet.getDouble("paymentAmount"));
+                payment.setPaymentDate(resultSet.getDate("paymentDate"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,20 +51,19 @@ public class CustomerDAO {
                 }
             }
         }
-        return customer;
+        return payment;
     }
 
-    // Update Customer information
-    public boolean updateCustomer(Customer customer) {
-        String sql = "UPDATE customers SET name = ?, email = ?, phoneNumber = ?, address = ? WHERE customerId = ?";
+    // Update Payment information
+    public boolean updatePayment(Payment payment) {
+        String sql = "UPDATE payments SET orderId = ?, paymentAmount = ?, paymentDate = ? WHERE paymentId = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, customer.getName());
-            statement.setString(2, customer.getEmail());
-            statement.setString(3, customer.getPhoneNumber());
-            statement.setString(4, customer.getAddress());
-            statement.setInt(5, customer.getCustomerID());
+            statement.setInt(1, payment.getOrderID());
+            statement.setDouble(2, payment.getPaymentAmount());
+            statement.setDate(3, new java.sql.Date(payment.getPaymentDate().getTime()));
+            statement.setInt(4, payment.getPaymentID());
             int rowsUpdated = statement.executeUpdate();
             return rowsUpdated > 0;
         } catch (SQLException e) {
@@ -89,16 +80,15 @@ public class CustomerDAO {
         }
     }
 
-    // Insert a new Customer
-    public boolean insertCustomer(Customer customer) {
-        String sql = "INSERT INTO customers (name, email, phoneNumber, address) VALUES (?, ?, ?, ?, ?)";
+    // Insert a new Payment
+    public boolean insertPayment(Payment payment) {
+        String sql = "INSERT INTO payments (orderId, paymentAmount, paymentDate) VALUES (?, ?, ?)";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, customer.getName());
-            statement.setString(2, customer.getEmail());
-            statement.setString(3, customer.getPhoneNumber());
-            statement.setString(4, customer.getAddress());
+            statement.setInt(1, payment.getOrderID());
+            statement.setDouble(2, payment.getPaymentAmount());
+            statement.setDate(3, new java.sql.Date(payment.getPaymentDate().getTime()));
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -115,9 +105,9 @@ public class CustomerDAO {
         }
     }
 
-    // Delete a Customer
-    public boolean deleteCustomer(int id) {
-        String sql = "DELETE FROM customers WHERE customerId = ?";
+    // Delete a Payment
+    public boolean deletePayment(int id) {
+        String sql = "DELETE FROM payments WHERE paymentId = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
@@ -138,23 +128,22 @@ public class CustomerDAO {
         }
     }
 
-    // Get all Customers
-    public List getCustomerList() { // Không sử dụng generic
-        List customerList = new ArrayList(); // Không sử dụng generic
-        String sql = "SELECT * FROM customers";
+    // Get all Payments
+    public List getPaymentList() { // Không sử dụng generic
+        List paymentList = new ArrayList(); // Không sử dụng generic
+        String sql = "SELECT * FROM payments";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerID(resultSet.getInt("customerId"));
-                customer.setName(resultSet.getString("name"));
-                customer.setEmail(resultSet.getString("email"));
-                customer.setPhoneNumber(resultSet.getString("phoneNumber"));
-                customer.setAddress(resultSet.getString("address"));
-                customerList.add(customer);
+                Payment payment = new Payment();
+                payment.setPaymentID(resultSet.getInt("paymentId"));
+                payment.setOrderID(resultSet.getInt("orderId"));
+                payment.setPaymentAmount(resultSet.getDouble("paymentAmount"));
+                payment.setPaymentDate(resultSet.getDate("paymentDate"));
+                paymentList.add(payment);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -174,6 +163,6 @@ public class CustomerDAO {
                 }
             }
         }
-        return customerList;
+        return paymentList;
     }
 }

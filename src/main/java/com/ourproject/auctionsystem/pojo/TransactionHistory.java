@@ -1,29 +1,46 @@
 package com.ourproject.auctionsystem.pojo;
 import java.util.Date;
 
+import java.util.Date;
+
 public class TransactionHistory {
-    private int transactionID;
-    private int auctionID;
+    private int transactionId;
+    private int userId;
+    private int itemId;
     private Date transactionDate;
-    private double transactionAmount;
+    private double amount;
 
-    // Getters and Setters
+    // Constructor
+    public TransactionHistory() {}
+
+    // Getter and Setter for transactionId
     public int getTransactionID() {
-        return transactionID;
+        return transactionId;
     }
 
-    public void setTransactionID(int transactionID) {
-        this.transactionID = transactionID;
+    public void setTransactionID(int transactionId) {
+        this.transactionId = transactionId;
     }
 
-    public int getAuctionID() {
-        return auctionID;
+    // Getter and Setter for userId
+    public int getUserID() {
+        return userId;
     }
 
-    public void setAuctionID(int auctionID) {
-        this.auctionID = auctionID;
+    public void setUserID(int userId) {
+        this.userId = userId;
     }
 
+    // Getter and Setter for itemId
+    public int getItemID() {
+        return itemId;
+    }
+
+    public void setItemID(int itemId) {
+        this.itemId = itemId;
+    }
+
+    // Getter and Setter for transactionDate
     public Date getTransactionDate() {
         return transactionDate;
     }
@@ -32,15 +49,13 @@ public class TransactionHistory {
         this.transactionDate = transactionDate;
     }
 
-    public double getTransactionAmount() {
-        return transactionAmount;
+    // Getter and Setter for amount
+    public double getAmount() {
+        return amount;
     }
 
-    public void setTransactionAmount(double transactionAmount) {
-        this.transactionAmount = transactionAmount;
-    }
-
-    // Methods
-    public void logTransaction() {
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 }
+

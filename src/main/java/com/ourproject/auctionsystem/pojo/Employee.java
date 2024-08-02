@@ -2,6 +2,10 @@ package com.ourproject.auctionsystem.pojo;
 
 public class Employee extends User {
     private int employeeID;
+    private String employeeName;
+    private String department;
+    private String position;
+    private String role;
 
     // Getters and Setters
     public int getEmployeeID() {
@@ -21,4 +25,8 @@ public class Employee extends User {
 
     public void finalizeValuation() {
     }
+    public void setRole(String role){
+        this.role = role;
+    }
+
 }

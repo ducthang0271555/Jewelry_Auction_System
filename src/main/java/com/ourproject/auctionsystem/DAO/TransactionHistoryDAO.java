@@ -1,6 +1,6 @@
 package com.ourproject.auctionsystem.DAO;
 
-import com.ourproject.auctionsystem.pojo.Customer;
+import com.ourproject.auctionsystem.pojo.TransactionHistory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,24 +9,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-public class CustomerDAO {
+public class TransactionHistoryDAO {
     private Connection connection;
 
-    public CustomerDAO(Connection connection) {
+    public TransactionHistoryDAO(Connection connection) {
         this.connection = connection;
     }
 
-    // Get a single Customer by its ID
-    public Customer getCustomerById(int id) {
-        Customer customer = null;
-        String sql = "SELECT * FROM customers WHERE customerId = ?";
+    // Get a single TransactionHistory by its ID
+    public TransactionHistory getTransactionHistoryById(int id) {
+        TransactionHistory transactionHistory = null;
+        String sql = "SELECT * FROM transaction_history WHERE transactionId = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -34,12 +27,12 @@ public class CustomerDAO {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                customer = new Customer();
-                customer.setCustomerID(resultSet.getInt("customerId"));
-                customer.setName(resultSet.getString("name"));
-                customer.setEmail(resultSet.getString("email"));
-                customer.setPhoneNumber(resultSet.getString("phoneNumber"));
-                customer.setAddress(resultSet.getString("address"));
+                transactionHistory = new TransactionHistory();
+                transactionHistory.setTransactionID(resultSet.getInt("transactionID"));
+                transactionHistory.setUserID(resultSet.getInt("userID"));
+                transactionHistory.setItemID(resultSet.getInt("itemID"));
+                transactionHistory.setTransactionDate(resultSet.getDate("transactionDate"));
+                transactionHistory.setAmount(resultSet.getDouble("amount"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,20 +52,20 @@ public class CustomerDAO {
                 }
             }
         }
-        return customer;
+        return transactionHistory;
     }
 
-    // Update Customer information
-    public boolean updateCustomer(Customer customer) {
-        String sql = "UPDATE customers SET name = ?, email = ?, phoneNumber = ?, address = ? WHERE customerId = ?";
+    // Update TransactionHistory information
+    public boolean updateTransactionHistory(TransactionHistory transactionHistory) {
+        String sql = "UPDATE transaction_history SET userId = ?, itemId = ?, transactionDate = ?, amount = ? WHERE transactionId = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, customer.getName());
-            statement.setString(2, customer.getEmail());
-            statement.setString(3, customer.getPhoneNumber());
-            statement.setString(4, customer.getAddress());
-            statement.setInt(5, customer.getCustomerID());
+            statement.setInt(1, transactionHistory.getUserID());
+            statement.setInt(2, transactionHistory.getItemID());
+            statement.setDate(3, new java.sql.Date(transactionHistory.getTransactionDate().getTime()));
+            statement.setDouble(4, transactionHistory.getAmount());
+            statement.setInt(5, transactionHistory.getTransactionID());
             int rowsUpdated = statement.executeUpdate();
             return rowsUpdated > 0;
         } catch (SQLException e) {
@@ -89,16 +82,16 @@ public class CustomerDAO {
         }
     }
 
-    // Insert a new Customer
-    public boolean insertCustomer(Customer customer) {
-        String sql = "INSERT INTO customers (name, email, phoneNumber, address) VALUES (?, ?, ?, ?, ?)";
+    // Insert a new TransactionHistory
+    public boolean insertTransactionHistory(TransactionHistory transactionHistory) {
+        String sql = "INSERT INTO transaction_history (userId, itemId, transactionDate, amount) VALUES (?, ?, ?, ?)";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, customer.getName());
-            statement.setString(2, customer.getEmail());
-            statement.setString(3, customer.getPhoneNumber());
-            statement.setString(4, customer.getAddress());
+            statement.setInt(1, transactionHistory.getUserID());
+            statement.setInt(2, transactionHistory.getItemID());
+            statement.setDate(3, new java.sql.Date(transactionHistory.getTransactionDate().getTime()));
+            statement.setDouble(4, transactionHistory.getAmount());
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -115,9 +108,9 @@ public class CustomerDAO {
         }
     }
 
-    // Delete a Customer
-    public boolean deleteCustomer(int id) {
-        String sql = "DELETE FROM customers WHERE customerId = ?";
+    // Delete a TransactionHistory
+    public boolean deleteTransactionHistory(int id) {
+        String sql = "DELETE FROM transaction_history WHERE transactionId = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
@@ -138,23 +131,23 @@ public class CustomerDAO {
         }
     }
 
-    // Get all Customers
-    public List getCustomerList() { // Không sử dụng generic
-        List customerList = new ArrayList(); // Không sử dụng generic
-        String sql = "SELECT * FROM customers";
+    // Get all TransactionHistory
+    public List getTransactionHistoryList() { // Không sử dụng generic
+        List transactionHistoryList = new ArrayList(); // Không sử dụng generic
+        String sql = "SELECT * FROM transaction_history";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerID(resultSet.getInt("customerId"));
-                customer.setName(resultSet.getString("name"));
-                customer.setEmail(resultSet.getString("email"));
-                customer.setPhoneNumber(resultSet.getString("phoneNumber"));
-                customer.setAddress(resultSet.getString("address"));
-                customerList.add(customer);
+                TransactionHistory transactionHistory = new TransactionHistory();
+                transactionHistory.setTransactionID(resultSet.getInt("transactionId"));
+                transactionHistory.setUserID(resultSet.getInt("userId"));
+                transactionHistory.setItemID(resultSet.getInt("itemId"));
+                transactionHistory.setTransactionDate(resultSet.getDate("transactionDate"));
+                transactionHistory.setAmount(resultSet.getDouble("amount"));
+                transactionHistoryList.add(transactionHistory);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -174,6 +167,6 @@ public class CustomerDAO {
                 }
             }
         }
-        return customerList;
+        return transactionHistoryList;
     }
 }

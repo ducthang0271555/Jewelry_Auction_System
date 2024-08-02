@@ -7,6 +7,8 @@ public class User {
     private String email;
     private String role;
     private String phoneNumber;
+    private String name;
+    private String department;
 
     // Getters and Setters
     public int getUserID() {
@@ -23,6 +25,12 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+    public void setUserId(int userID) {
+        this.userID = userID;
+    }
+    public int getUserId() {
+        return userID;
     }
 
     public String getPassword() {
@@ -62,5 +70,19 @@ public class User {
     }
 
     public void login() {
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getName(){
+        return name;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+    public String getDepartment(){
+        return department;
     }
 }

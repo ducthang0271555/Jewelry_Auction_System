@@ -1,6 +1,6 @@
 package com.ourproject.auctionsystem.DAO;
 
-import com.ourproject.auctionsystem.pojo.Customer;
+import com.ourproject.auctionsystem.pojo.Manager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,24 +9,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-public class CustomerDAO {
+public class ManagerDAO {
     private Connection connection;
 
-    public CustomerDAO(Connection connection) {
+    public ManagerDAO(Connection connection) {
         this.connection = connection;
     }
 
-    // Get a single Customer by its ID
-    public Customer getCustomerById(int id) {
-        Customer customer = null;
-        String sql = "SELECT * FROM customers WHERE customerId = ?";
+    // Get a single Manager by its ID
+    public Manager getManagerById(int id) {
+        Manager manager = null;
+        String sql = "SELECT * FROM managers WHERE managerId = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -34,12 +27,12 @@ public class CustomerDAO {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                customer = new Customer();
-                customer.setCustomerID(resultSet.getInt("customerId"));
-                customer.setName(resultSet.getString("name"));
-                customer.setEmail(resultSet.getString("email"));
-                customer.setPhoneNumber(resultSet.getString("phoneNumber"));
-                customer.setAddress(resultSet.getString("address"));
+                manager = new Manager();
+                manager.setManagerID(resultSet.getInt("managerId"));
+                manager.setName(resultSet.getString("name"));
+                manager.setEmail(resultSet.getString("email"));
+                manager.setPhoneNumber(resultSet.getString("phoneNumber"));
+                manager.setDepartment(resultSet.getString("department"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,20 +52,20 @@ public class CustomerDAO {
                 }
             }
         }
-        return customer;
+        return manager;
     }
 
-    // Update Customer information
-    public boolean updateCustomer(Customer customer) {
-        String sql = "UPDATE customers SET name = ?, email = ?, phoneNumber = ?, address = ? WHERE customerId = ?";
+    // Update Manager information
+    public boolean updateManager(Manager manager) {
+        String sql = "UPDATE managers SET name = ?, email = ?, phoneNumber = ?, department = ? WHERE managerId = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, customer.getName());
-            statement.setString(2, customer.getEmail());
-            statement.setString(3, customer.getPhoneNumber());
-            statement.setString(4, customer.getAddress());
-            statement.setInt(5, customer.getCustomerID());
+            statement.setString(1, manager.getName());
+            statement.setString(2, manager.getEmail());
+            statement.setString(3, manager.getPhoneNumber());
+            statement.setString(4, manager.getDepartment());
+            statement.setInt(5, manager.getManagerID());
             int rowsUpdated = statement.executeUpdate();
             return rowsUpdated > 0;
         } catch (SQLException e) {
@@ -89,16 +82,16 @@ public class CustomerDAO {
         }
     }
 
-    // Insert a new Customer
-    public boolean insertCustomer(Customer customer) {
-        String sql = "INSERT INTO customers (name, email, phoneNumber, address) VALUES (?, ?, ?, ?, ?)";
+    // Insert a new Manager
+    public boolean insertManager(Manager manager) {
+        String sql = "INSERT INTO managers (name, email, phoneNumber, department) VALUES (?, ?, ?, ?)";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, customer.getName());
-            statement.setString(2, customer.getEmail());
-            statement.setString(3, customer.getPhoneNumber());
-            statement.setString(4, customer.getAddress());
+            statement.setString(1, manager.getName());
+            statement.setString(2, manager.getEmail());
+            statement.setString(3, manager.getPhoneNumber());
+            statement.setString(4, manager.getDepartment());
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -115,9 +108,9 @@ public class CustomerDAO {
         }
     }
 
-    // Delete a Customer
-    public boolean deleteCustomer(int id) {
-        String sql = "DELETE FROM customers WHERE customerId = ?";
+    // Delete a Manager
+    public boolean deleteManager(int id) {
+        String sql = "DELETE FROM managers WHERE managerId = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
@@ -138,23 +131,23 @@ public class CustomerDAO {
         }
     }
 
-    // Get all Customers
-    public List getCustomerList() { // Không sử dụng generic
-        List customerList = new ArrayList(); // Không sử dụng generic
-        String sql = "SELECT * FROM customers";
+    // Get all Managers
+    public List getManagerList() { // Không sử dụng generic
+        List managerList = new ArrayList(); // Không sử dụng generic
+        String sql = "SELECT * FROM managers";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerID(resultSet.getInt("customerId"));
-                customer.setName(resultSet.getString("name"));
-                customer.setEmail(resultSet.getString("email"));
-                customer.setPhoneNumber(resultSet.getString("phoneNumber"));
-                customer.setAddress(resultSet.getString("address"));
-                customerList.add(customer);
+                Manager manager = new Manager();
+                manager.setManagerID(resultSet.getInt("managerId"));
+                manager.setName(resultSet.getString("name"));
+                manager.setEmail(resultSet.getString("email"));
+                manager.setPhoneNumber(resultSet.getString("phoneNumber"));
+                manager.setDepartment(resultSet.getString("department"));
+                managerList.add(manager);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -174,6 +167,6 @@ public class CustomerDAO {
                 }
             }
         }
-        return customerList;
+        return managerList;
     }
 }

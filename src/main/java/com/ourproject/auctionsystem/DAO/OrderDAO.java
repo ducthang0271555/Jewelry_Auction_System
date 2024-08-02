@@ -1,6 +1,6 @@
 package com.ourproject.auctionsystem.DAO;
 
-import com.ourproject.auctionsystem.pojo.Customer;
+import com.ourproject.auctionsystem.pojo.Order;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,24 +9,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-public class CustomerDAO {
+public class OrderDAO {
     private Connection connection;
 
-    public CustomerDAO(Connection connection) {
+    public OrderDAO(Connection connection) {
         this.connection = connection;
     }
 
-    // Get a single Customer by its ID
-    public Customer getCustomerById(int id) {
-        Customer customer = null;
-        String sql = "SELECT * FROM customers WHERE customerId = ?";
+    // Get a single Order by its ID
+    public Order getOrderById(int id) {
+        Order order = null;
+        String sql = "SELECT * FROM orders WHERE orderId = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -34,12 +27,11 @@ public class CustomerDAO {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                customer = new Customer();
-                customer.setCustomerID(resultSet.getInt("customerId"));
-                customer.setName(resultSet.getString("name"));
-                customer.setEmail(resultSet.getString("email"));
-                customer.setPhoneNumber(resultSet.getString("phoneNumber"));
-                customer.setAddress(resultSet.getString("address"));
+                order = new Order();
+                order.setOrderID(resultSet.getInt("orderId"));
+                order.setAuctionID(resultSet.getInt("auctionId"));
+                order.setCustomerID(resultSet.getInt("customerId"));
+                order.setOrderStatus(resultSet.getString("orderStatus"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,20 +51,19 @@ public class CustomerDAO {
                 }
             }
         }
-        return customer;
+        return order;
     }
 
-    // Update Customer information
-    public boolean updateCustomer(Customer customer) {
-        String sql = "UPDATE customers SET name = ?, email = ?, phoneNumber = ?, address = ? WHERE customerId = ?";
+    // Update Order information
+    public boolean updateOrder(Order order) {
+        String sql = "UPDATE orders SET auctionId = ?, customerId = ?, orderStatus = ? WHERE orderId = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, customer.getName());
-            statement.setString(2, customer.getEmail());
-            statement.setString(3, customer.getPhoneNumber());
-            statement.setString(4, customer.getAddress());
-            statement.setInt(5, customer.getCustomerID());
+            statement.setInt(1, order.getAuctionID());
+            statement.setInt(2, order.getCustomerID());
+            statement.setString(3, order.getOrderStatus());
+            statement.setInt(4, order.getOrderID());
             int rowsUpdated = statement.executeUpdate();
             return rowsUpdated > 0;
         } catch (SQLException e) {
@@ -89,16 +80,15 @@ public class CustomerDAO {
         }
     }
 
-    // Insert a new Customer
-    public boolean insertCustomer(Customer customer) {
-        String sql = "INSERT INTO customers (name, email, phoneNumber, address) VALUES (?, ?, ?, ?, ?)";
+    // Insert a new Order
+    public boolean insertOrder(Order order) {
+        String sql = "INSERT INTO orders (auctionId, customerId, orderStatus) VALUES (?, ?, ?)";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, customer.getName());
-            statement.setString(2, customer.getEmail());
-            statement.setString(3, customer.getPhoneNumber());
-            statement.setString(4, customer.getAddress());
+            statement.setInt(1, order.getAuctionID());
+            statement.setInt(2, order.getCustomerID());
+            statement.setString(3, order.getOrderStatus());
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
@@ -115,9 +105,9 @@ public class CustomerDAO {
         }
     }
 
-    // Delete a Customer
-    public boolean deleteCustomer(int id) {
-        String sql = "DELETE FROM customers WHERE customerId = ?";
+    // Delete an Order
+    public boolean deleteOrder(int id) {
+        String sql = "DELETE FROM orders WHERE orderId = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
@@ -138,23 +128,22 @@ public class CustomerDAO {
         }
     }
 
-    // Get all Customers
-    public List getCustomerList() { // Không sử dụng generic
-        List customerList = new ArrayList(); // Không sử dụng generic
-        String sql = "SELECT * FROM customers";
+    // Get all Orders
+    public List getOrderList() { // Không sử dụng generic
+        List orderList = new ArrayList(); // Không sử dụng generic
+        String sql = "SELECT * FROM orders";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Customer customer = new Customer();
-                customer.setCustomerID(resultSet.getInt("customerId"));
-                customer.setName(resultSet.getString("name"));
-                customer.setEmail(resultSet.getString("email"));
-                customer.setPhoneNumber(resultSet.getString("phoneNumber"));
-                customer.setAddress(resultSet.getString("address"));
-                customerList.add(customer);
+                Order order = new Order();
+                order.setOrderID(resultSet.getInt("orderId"));
+                order.setAuctionID(resultSet.getInt("auctionId"));
+                order.setCustomerID(resultSet.getInt("customerId"));
+                order.setOrderStatus(resultSet.getString("orderStatus"));
+                orderList.add(order);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -174,6 +163,7 @@ public class CustomerDAO {
                 }
             }
         }
-        return customerList;
+        return orderList;
     }
 }
+

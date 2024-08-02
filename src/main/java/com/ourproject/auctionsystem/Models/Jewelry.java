@@ -25,4 +25,42 @@ public class Jewelry {
 
     @Column(name = "status", nullable = false)
     private String status;
+
+    public void setJewelryId(int jewelryID) {
+        this.jewelryID = jewelryID;
+    }
+    public int getJewelryId(){
+        return jewelryID;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public double getInitialPrice() {
+        return initialPrice;
+    }
+    public void setInitialPrice(double initialPrice) {
+        this.initialPrice = initialPrice;
+    }
+    public double getFinalPrice() {
+        return finalPrice;
+    }
+    public void setFinalPrice(double finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
